@@ -130,3 +130,8 @@ jpa:
 @ColumnDefault("'user'") //문자임을 알리기위한 " '   ' "
 
 22강 : 연관관계 주인 = FK를 가진 오브젝트 
+상세보기 화면 : user board reply 가 다필요한 상황
+select * from board where id =1 ; 쿼리문 실행시 
+
+JPA에서 보드 모델이 필요한 것을 인식을하고 똑같은 쿼리문을 만드는 것이 아닌 
+보드가 들고있는 user 오브젝트 (FK)를 보고 조인 쿼리문을 날린다. USER랑 BOARD를 조인한 쿼리문 
