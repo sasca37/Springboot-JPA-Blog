@@ -1,0 +1,132 @@
+10강.
+
+postman 설치  
+
+http 통신 : 약속 
+http(1.1버전) 통신방법 
+
+A   ---> 요청 (request)  -->B(서버)
+<요청의 방법 4가지> 요청 후에 how(어떤 데이터를 표현)하기 위해 ?를 사용 
+
+1. get : 데이터를 줘 -(DB에 매핑해보면 SELECT) -> URL에 데이터 노출, 캐싱 O, 데이터를 헤더에포함
+
+*캐싱 : 한번 접근 후 또 요청할시 레지스터에 데이터를 저장시켜 빠르게 접근가능하게함 
+
+2. post : 데이터를 추가해줘(INSERT)  -> 데이터노출 X , 캐싱X, 데이터를 바디에 포함
+
+3. put : 데이터를 수정해줘 (UPDATE)
+
+4. delete : 삭제 (DELETE)
+
+11강.
+
+http방식 : stateless
+stateless : 요청시 마다 스트림을 연결해서 data를 주고 받는 방식 
+
+채팅방식 : stateful (연결이 지속돼있음)
+
+12강. MIME 타입 
+
+헤더와 바디
+
+클 --->post 요청 --> 서버
+
+post 요청 (JSON, TEXT, IMG, AVI, 이진 등)
+
+MIME 타입 : 웹에서는 문서의 다양성을 알려주기위한 메커니즘(확장자는 별 도움이 안됨) 
+MIME 문법 : type/subtype 
+ex) text/plain text/html image/jpeg  text/css application/json application/js  
+
+헤더 :  img/jpeg (데이터를 설명)
+바디 :  my.jpeg  (데이터)
+
+패킷스위칭 : 패킷 단위로 
+서킷스위칭 : 있는 전부 단위로 
+
+13강 . http 요청 
+@RestController : 사용자가 요청했을때 data를 응답하는 컨트롤러 
+@Controller : 사용자가 요청했을때 html을 응답하는 컨트롤러 
+
+인터넷 브라우저 요청은 무조건 get 요청밖에 할 수가 없다.
+다른 메소드 실행시 405(메서드 틀린에러)에러뜸 
+
+@GetMapping("/http/get")
+	public String getTest() {
+		return "get 요청";
+	}
+
+public String getTest(@RequestParam int id, @RequestParam String username) 
+== public String getTest(Member m)
+
+post는 get과 달리 url이 아닌 바디에 값을 넣는다 . 이 때 body값 설정을 위한 @RequestBody 사용
+<form> 태그 와 같은 속성을 x-www-form 이라함
+
+
+MIME의 타입은 MessageConverter (스프링부트) 가 자동으로 해준다. 
+
+14강. 
+Maven 장점 : 여러 라이브러리들을 .m2 폴더안에 repository 내부에 담아두는 중앙저장소 
+pom.xml에 필요한 라이브러리들 기술해두면 자동으로 다운받아줌 
+-> pom.xml 배포만으로도 다른 os환경에서도 접근용이 (maven 설치만하면됨) 
+
+15~16 : lombok 사용 및 설치 
+builder 는 매개변수 순서가 달라고 제대로 들어간다. 빼고싶은 매개변수를 마음대로 뺄 수 있다.
+
+17 : yaml 설정 : 프로젝트 설정 (인코딩, 디비 등) - 기존엔 xml에서 설정 요즘 yaml
+xml -> json -> yaml
+
+yaml 키와 벨류 사이에 스페이스가 무조건 띄워져야한다. 
+중괄호가 없는 대신 들여쓰기로 한다. (무조건 스페이스 2칸)
+
+레거시 기준
+root-context.xml : 한번만 new되고 더이상 안하는애들 (싱글톤) db 설정
+servlet-context.xml : 지속적으로 계속 사용해야되는 애들 
+
+-> 이것들을 통합한 application.yml에 모든 설정을하면된다. (스프링부트)
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+--> 기본 디폴트 설정 
+
+
+파일리턴 기본경로 : src/main/resources/static 
+파일 풀네임 .html 등 해야 된다 . 
+static 안에는 정적파일만가능 html. img 등 
+
+jsp 는 기본적으로 스프링부트에서 지원을하지 않고 (pom 에 jsper 필요) 동적파일이다.
+src - main 에 webapp/WEB-INF/views 폴더 생성 후 jsp넣는다.
+
+yaml 에
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/ --> 앞에 붙는
+      suffix: .jsp		--> 뒤에 붙는 
+
+18강 User 테이블
+JPA: 자바의 클래스와 DB의 테이블을 매핑하는 기술 
+@Entity //User 클래스가 MYSQL에 자동으로 테이블이 생성이 된다. JPA 사용을 알림 
+@Id //Primary Key
+@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 db의 넘버링 전략을 따라간다. +JPA 설정 필요 
+IDENTITY 말고도 여러가지있다. 
+
+jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create --> 테이블 생성을 위함 (실행마다 하므로 처음에만 create로하고 후에 update로 수정) 
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false --> JPA가 사용하는 기본 넘버링 전략을 따라가지 않는다.
+    show-sql: true --> 콘솔창에 쿼리문 보여줌 
+    properties:
+      hibernate.format_sql: true --> 줄단위로 띄워서 보여줌 
+
+@Column(nullable = false, length =30) 
+널이 될수없고 길이 조절 
+@CreationTimestamp //시간 자동입력
+@ColumnDefault("'user'") //문자임을 알리기위한 " '   ' "
+
+22강 : 연관관계 주인 = FK를 가진 오브젝트 
