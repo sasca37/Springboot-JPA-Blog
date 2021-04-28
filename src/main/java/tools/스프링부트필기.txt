@@ -32,7 +32,7 @@ A   ---> 요청 (request)  -->B(서버)
 11강.
 
 http방식 : stateless
-stateless : 요청시 마다 스트림을 연결해서 data를 주고 받는 방식 
+stateless : 요청시 마다 스트림을 연결해서 data를 주고 받는 방식
 
 채팅방식 : stateful (연결이 지속돼있음)
 
@@ -56,7 +56,7 @@ ex) text/plain text/html image/jpeg  text/css application/json application/js
 
 13강 . http 요청 
 @RestController : 사용자가 요청했을때 data를 응답하는 컨트롤러 
-@Controller : 사용자가 요청했을때 html을 응답하는 컨트롤러 
+@Controller : 사용자가 요청했을때 html을 응답하는 컨트롤러 (view 반환)
 
 인터넷 브라우저 요청은 무조건 get 요청밖에 할 수가 없다.
 다른 메소드 실행시 405(메서드 틀린에러)에러뜸 
@@ -151,3 +151,46 @@ JPA에서 보드 모델이 필요한 것을 인식을하고 똑같은 쿼리문�
 
 24강 : 더미데이터 insert
 >>>>>>> branch 'master' of https://github.com/sasca37/Springboot-JPA-Blog.git
+
+26강 selectbyid  
+28강 업데이트 
+	//save 함수는 id를 전달하지 않으면 insert를 해주고 
+	//id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고 
+	// 데이터가 없으면 insert를 한다.
+*더티 체킹 
+@Transactional  //save를 호출하지 않아도 db값 업데이트가능
+
+29강 JPA 영속성 컨텍스트,  더티체킹
+
+1차 캐시 : user 객체가 쌓임 (영속화: 영원히 지속 -> 플러쉬를 해도 1차캐시에 객체가 남아있음 )  
+이게 db에 넘어갈시 flush 
+즉 db에 영향없이 컨트롤러에서 user객체의 값을 바꿀 수있음 
+영속화된 user 객체를 Controller에서 값을 수정하면 JPA에선 user객체를 update함 
+
+@Transactional 시 해당 메소드 종료시에 자동 커밋이된다. -> jpa에서 객체 내용 변경시 변경내용을 스스로 확인 ->
+-> 변경된 내용이 확인되었으니 자동으로 flush를 함 == save호출 없이 db update가 가능하다. 
+* @Transcational 사용해도 변경된 값이 없으면 flush를 하지않음 --> 이러한 확인 방식이 더티체킹(변경감지)
+db에서의 더티체킹 : 트랜잭션해야될것을 모아놨다가 한방에 커밋하는것 살짝의미가 다름 
+
+30강 delete
+
+31강 exception 처리 
+
+32강 스프링 컨트롤러 파싱 , json통신 
+
+1.GET : 모든 URL에 검색되는 방식 .  body로 데이터를 담아 보내지 않음 key value 형태 
+2. post put delete (데이터를 변경) : 데이터를 담아 보내야 할 것이 많음 
+-> form 태그 (html) 요청은 get, post 밖에 못함, 데이터가 key value 형태 
+-> 자바스크립트 요청은 다가능 
+
+통일 : 자바스크립트로 ajax 요청 + 데이터는 json으로 통일 
+스프링 안에<form:form> 태그 있음. 이것도 모두가능 
+
+스프링 컨트롤러 전략
+key value 형태의 데이터를 받으면 컨트롤러는 파라미터 변수에 대입해준다.
+		   		        오브젝트로 파싱해서 받아주는 역할도 한다. (단 해당 오브젝트가 setter필요)
+
+3. 오브젝트로 데이터 받기 (setter 무조건있어야된다)
+post 방식의 key value (x-www-form-urlencoded)
+username = ss      --> 변수의 값이 동일해야한다.
+password = 1234
