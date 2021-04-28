@@ -34,7 +34,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 db의 넘버링 전략을 따라간다.
 	private int id; //시퀸스  auto_increment
 	
-	@Column(nullable = false, length =30)
+	//unique =true : 중복 없앰
+	@Column(nullable = false, length =30, unique=true)
 	private String username;  //아이디
 	
 	@Column(nullable = false, length =100) //해쉬를 사용한 암호화 사용위한 100 
