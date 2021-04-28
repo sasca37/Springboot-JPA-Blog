@@ -1,0 +1,26 @@
+@RestController : 사용자가 요청했을때 data를 응답하는 컨트롤러 
+@Controller : 사용자가 요청했을때 html을 응답하는 컨트롤러 (view 반환)
+-> 컨트롤러에서도 데이터 반환 하고 싶을 시 @ResponseBody 사용
+
+@GetMapping("/") :select
+
+@PostMapping("/") : insert 
+  
+
+<jpa> ORM -> 모든 언어 object를 테이블로 매핑해주는 기술 
+
+인터페이스에 JpaRepository<모델,Integer> {} 생성시 자동 bean등록 
+
+@Entity (자동으로 mysql에 테이블이 생성)
+@CreationTimestamp 타임스탬프 사용시
+@Id : primaryKey
+@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 db의 넘버링 전략을 따라간다.
+@Column(nullable = false, length =30) : 널없고 길이설정
+@ColumnDefault("'user'") //문자임을 알리기위한 " '   ' " -> 디폴트 값 설정 
+@Enumerated(EnumType.STRING) -> Enum 사용시 해당 자료형 표현 
+@Lob //대용량 데이터쓸 때 사용 
+@JoinColumn(name="userId") //조인 user
+@OneToMany(mappedBy ="board", fetch=FetchType.EAGER)
+//mappedBy 연관관계의 주인이아니다. (난 fk가 아니에요) 디비에 컬럼을 만들지마세요.
+@Transactional  //save를 호출하지 않아도 db값 업데이트가능
+@PathVariable : URL 경로에 변수를 추가해줄때 
