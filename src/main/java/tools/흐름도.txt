@@ -1,0 +1,18 @@
+DAO : DB 기능을 전담하는 오브젝트 
+DTO : 로직없는 순수한 데이터 객체 (GETTER, SETTER등)
+localhost:8080/blog 처음화면 (yml 설정), 메인화면 (boardcontroller) -> index
+
+메인화면 -> 로그인화면  http://localhost:8000/blog/user/loginForm
+
+
+             -> 회원가입화면  http://localhost:8000/blog/user/joinForm 
+ 	  -> 회원가입 버튼시 user.js를통해 /blog/api/user 에 post로 ajax 값을 던지고 /blog로 돌아옴 
+	     -> 돌아오기전에 UserApiController, UserService 를 통해 /api/user에서 db에 값 insert 
+
+
+BoardController : 메인화면  -> return index.jsp
+UserController :  로그인화면 (LoginForm.jsp), 회원가입화면(joinForm.jsp)  
+UserApiController : userService의 회원가입 메서드를 사용하여 실제 db에 삽입
+
+UserService : 회원가입 메서드 존재 
+UserRepository: DAO 인터페이스 (JpaRepository) 

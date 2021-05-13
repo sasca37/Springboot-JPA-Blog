@@ -4,7 +4,7 @@
 
 <div class="container">
 
-	<form action="/action_page.php">
+	<form>
 	
 		<div class="form-group">
 			<label for="email">Username </label> <input type="text" class="form-control" placeholder="Enter username" id="username">
@@ -21,9 +21,9 @@
 			
 	</form>
 	
-	<button id="btn_save" class="btn btn-primary">로그인</button>
+	<button id="btn_login" class="btn btn-primary">로그인</button>
 	
 </div>
 
-
+<script src="/blog/js/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>
